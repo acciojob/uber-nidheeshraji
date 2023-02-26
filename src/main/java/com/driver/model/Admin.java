@@ -3,9 +3,10 @@ package com.driver.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Admins")
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int adminId;
     String username;
     String password;
@@ -36,5 +37,4 @@ public class Admin {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
