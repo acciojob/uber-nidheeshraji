@@ -52,19 +52,24 @@ public class CustomerServiceImpl implements CustomerService {
 		Cab cab=null;
 		int n=cabList.size();
 		Driver driver = null;
+		int temp=Integer.MAX_VALUE;
 		for(int i=0;i<n;i++)
 		{
 			 cab=cabList.get(i);
 			if(cab.getAvailable())
 			{
-			    driver=cab.getDriver();
-				cab.setAvailable(false);
-				break;
+			   Driver newdriver=cab.getDriver();
+				if(temp<newdriver.getDriverId())
+						temp=newdriver.getDriverId();
+
 			}
 			if(i==n-1)
 				throw new Exception("No cab available!");
 
 		}
+		driver=driverRepository2.findById(temp).get();
+		cab=driver.getCab();
+		cab.setAvailable(false);
 		Customer customer=customerRepository2.findById(customerId).get();
 
 		TripBooking tripBooking=new TripBooking();
