@@ -1,9 +1,11 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.driver.services.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.driver.services.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.driver.model.Admin;
 import com.driver.model.Customer;
@@ -11,46 +13,52 @@ import com.driver.model.Driver;
 import com.driver.repository.AdminRepository;
 import com.driver.repository.CustomerRepository;
 import com.driver.repository.DriverRepository;
-import com.driver.services.AdminService;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
 	@Autowired
 	AdminRepository adminRepository1;
+
 	@Autowired
 	DriverRepository driverRepository1;
+
 	@Autowired
 	CustomerRepository customerRepository1;
 
-	public AdminServiceImpl() {
-	}
-
+	@Override
 	public void adminRegister(Admin admin) {
-		this.adminRepository1.save(admin);
+		//Save the admin in the database
+		adminRepository1.save(admin);
 	}
 
+	@Override
 	public Admin updatePassword(Integer adminId, String password) {
-		Admin admin = (Admin)this.adminRepository1.findById(adminId).get();
+		//Update the password of admin with given id
+		Admin admin = adminRepository1.findById(adminId).get();
 		admin.setPassword(password);
-		this.adminRepository1.save(admin);
+		adminRepository1.save(admin);
 		return admin;
 	}
 
-	public void deleteAdmin(int adminId) {
-		Admin admin = (Admin)this.adminRepository1.findById(adminId).get();
-		this.adminRepository1.delete(admin);
+	@Override
+	public void deleteAdmin(int adminId){
+		// Delete admin without using deleteById function
+		Admin admin = adminRepository1.findById(adminId).get();
+		adminRepository1.delete(admin);
 	}
 
+	@Override
 	public List<Driver> getListOfDrivers() {
-		List<Driver> drivers = this.driverRepository1.findAll();
+		//Find the list of all drivers
+		List<Driver> drivers = driverRepository1.findAll();
 		return drivers;
 	}
 
+	@Override
 	public List<Customer> getListOfCustomers() {
-		List<Customer> customerList = this.customerRepository1.findAll();
+		//Find the list of all customers
+		List<Customer> customerList = customerRepository1.findAll();
 		return customerList;
 	}
 }
